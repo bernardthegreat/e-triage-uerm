@@ -1,6 +1,6 @@
-import 'package:e_triage/screens/EmployeeScreen.dart';
-import 'package:e_triage/screens/TPCScreen.dart';
-import 'package:e_triage/screens/VisitorScreen.dart';
+// import 'package:e_triage/screens/EmployeeScreen.dart';
+// import 'package:e_triage/screens/TPCScreen.dart';
+// import 'package:e_triage/screens/VisitorScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -95,13 +95,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
       body: new PageView(
         children: [
-          Text('ddd'),
+          // EmployeeScreen(),
+          // VisitorScreen(),
+          // TPCScreen(),
         ],
-        // children: [
-        //   EmployeeScreen(),
-        //   VisitorScreen(),
-        //   TPCScreen(),
-        // ],
         onPageChanged: onPageChanged,
         controller: pageController,
       ),

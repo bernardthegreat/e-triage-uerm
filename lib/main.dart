@@ -14,9 +14,8 @@ class MyApp extends StatelessWidget {
     return  MaterialApp(
         title: 'COVID 19 Health Declaration Form',
         theme: uermTheme,
-        routes: {
-          '/':(_)=>Text('asd'),
-        },
+        initialRoute: '/',
+        routes: routes,
     );
   }
 }

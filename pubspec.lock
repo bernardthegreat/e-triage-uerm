@@ -84,12 +84,12 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_chips_input:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_chips_input
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.3"
+    version: "1.9.0-dev.3"
   flutter_colorpicker:
     dependency: transitive
     description:
@@ -310,6 +310,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  smooth_page_indicator:
+    dependency: "direct main"
+    description:
+      name: smooth_page_indicator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.5"
   source_span:
     dependency: transitive
     description:
