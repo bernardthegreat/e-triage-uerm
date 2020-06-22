@@ -42,7 +42,7 @@ class _MainHealthDeclarationStepperState extends State<MainHealthDeclarationStep
                       color: Colors.white,
                     ),
                     onPressed: () {
-                      Navigator.popUntil(context, ModalRoute.withName('/'));
+                      Navigator.of(context).popUntil(ModalRoute.withName('/'));
                     },
                   )
                 )

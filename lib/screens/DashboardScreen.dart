@@ -27,7 +27,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               color: Colors.white,
             ),
             onPressed: () {
-              Navigator.pushNamed(context, '/showqr');
+              Navigator.pushNamed(context, '/test_api');
             },
           )
         ],

@@ -54,7 +54,11 @@ class EmployeeProvider with ChangeNotifier {
     final response = await http.get(url);
     final response_json = json.decode(response.body);
     return response_json['result'];
+<<<<<<< Updated upstream
  
+=======
+
+>>>>>>> Stashed changes
   }
 
 

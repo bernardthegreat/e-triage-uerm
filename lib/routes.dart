@@ -9,6 +9,7 @@ import 'package:e_triage/screens/qr_code/show.dart';
 import 'package:flutter/widgets.dart';
 
 import 'components/MainHealthDeclarationStepper.dart';
+import 'components/Terms.dart';
 
 final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/": (BuildContext context) => DashboardScreen(),
@@ -18,4 +19,5 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/others": (BuildContext context) => OthersScreen(),
   "/scanqr": (BuildContext context) => ScanPage(),
   "/showqr": (BuildContext context) => ShowQR(),
+  "/test_api": (BuildContext context) => Terms(),
 };
