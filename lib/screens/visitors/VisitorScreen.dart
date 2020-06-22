@@ -1,5 +1,5 @@
-import 'package:e_triage/components/RegisterUser.dart';
 import 'package:flutter/material.dart';
+import 'package:e_triage/components/DashboardSelection.dart';
 
 class VisitorScreen extends StatelessWidget {
   const VisitorScreen({Key key}) : super(key: key);
@@ -13,7 +13,7 @@ class VisitorScreen extends StatelessWidget {
           color: Colors.white,
         ),
       ),
-      body: RegisterUser(),
+      body: DashboardSelection(),
     );
   }
 }

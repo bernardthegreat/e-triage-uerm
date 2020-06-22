@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'theme/themedata.dart';
 import 'models/TermsProvider.dart';
+import 'models/EmployeesProvider.dart';
 import 'package:provider/provider.dart';
 void main() {
   runApp(MyApp());
@@ -16,6 +17,10 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<TermsProvider>(
           create: (context) => TermsProvider(),
+        ),
+
+        ChangeNotifierProvider<EmployeesProvider>(
+          create: (context) => EmployeesProvider(),
         ),
       ],
       child: MaterialApp(

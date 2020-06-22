@@ -31,46 +31,46 @@ class _TermsState extends State<Terms> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-            future: _terms,
-            builder: (context, snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.active:
-                case ConnectionState.waiting:
-                case ConnectionState.none:
-                  return Center(child: CircularProgressIndicator());
-                  break;
-                default:
-                  return Wrap(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Center(child: 
-                          Text(
-                            snapshot.data['heading'].toString(), 
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
+      future: _terms,
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.active:
+          case ConnectionState.waiting:
+          case ConnectionState.none:
+            return Center(child: CircularProgressIndicator());
+            break;
+          default:
+            return Wrap(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(child: 
+                    Text(
+                      snapshot.data['heading'].toString(), 
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18,
                       ),
-                      
-                      Column(
-                        children: [ 
-                          Text(
-                            snapshot.data['body'][0].toString(), 
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(
-                              fontSize: 15
-                            ),
-                          ),
-                        ],
+                    ),
+                  ),
+                ),
+                
+                Column(
+                  children: [ 
+                    Text(
+                      snapshot.data['body'][0].toString(), 
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(
+                        fontSize: 15
                       ),
-                      
-                    ],
-                  );
-              }
-            }
+                    ),
+                  ],
+                ),
+                
+              ],
+            );
+        }
+      }
     );
   }
 }

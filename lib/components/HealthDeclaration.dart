@@ -172,3 +172,129 @@ class UserInformation extends StatelessWidget {
     );
   }
 }
+
+
+
+class Registration extends StatelessWidget {
+  final GlobalKey<FormBuilderState> _key = GlobalKey<FormBuilderState>();
+  
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Register'),
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
+      ),
+      body: FormBuilder(
+        key: _key,
+
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                CircleAvatar(
+                  backgroundColor: Colors.blueAccent,
+                  radius: 50,
+                  child: Text(
+                    'UERM',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                    ),
+                  ),
+                ),
+                FormBuilderTextField(
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18),
+                  attribute: 'first_name',
+                  decoration: InputDecoration(
+                    labelText: 'Firstname',
+                  ),
+                  maxLines: 1,
+                  validators: [FormBuilderValidators.required()],
+                ),
+
+                FormBuilderTextField(
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18),
+                  attribute: 'last_name',
+                  decoration: InputDecoration(
+                    labelText: 'Lastname',
+                  ),
+                  maxLines: 1,
+                  validators: [FormBuilderValidators.required()],
+                ),
+
+                FormBuilderTextField(
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18),
+                  attribute: 'middle_initial',
+                  decoration: InputDecoration(
+                    labelText: 'Middle Initial',
+                  ),
+                  maxLines: 1,
+                  validators: [FormBuilderValidators.required()],
+                ),
+
+                FormBuilderTextField(
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18),
+                  attribute: 'contact_no',
+                  decoration: InputDecoration(
+                    labelText: 'Contact #',
+                  ),
+                  maxLines: 1,
+                  validators: [FormBuilderValidators.required()],
+                ),
+
+                FormBuilderTextField(
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18),
+                  attribute: 'department',
+                  decoration: InputDecoration(
+                    labelText: 'Department',
+                  ),
+                  maxLines: 1,
+                  //validators: [FormBuilderValidators.required()],
+                ),
+
+                FormBuilderTextField(
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.multiline,
+                  style: TextStyle(fontSize: 18),
+                  attribute: 'remarks',
+                  decoration: InputDecoration(
+                    labelText: 'Remarks',
+                  ),
+                  maxLines: 1,
+                  //validators: [FormBuilderValidators.required()],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                // Container(
+                //   margin: EdgeInsets.all(10),
+                //   child: Column(
+                //     children: [
+                //       RaisedButton.icon(
+                //           onPressed: () {
+                //             //_search();
+                //           },
+                //           icon: Icon(FontAwesomeIcons.save),
+                //           label: Text('Register'))
+                //     ],
+                //   ),
+                // ),
+              ]
+            ),
+          ),
+        )
+        
+        
+      )
+    );
+  }
+}
