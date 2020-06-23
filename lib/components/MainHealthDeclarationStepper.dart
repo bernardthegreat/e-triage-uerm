@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:e_triage/models/EmployeesProvider.dart';
 import 'HealthDeclaration.dart';
+import 'package:e_triage/models/EmployeesProvider.dart';
+
+class MyData {
+  String temperature = '';
+}
 
 class MainHealthDeclarationStepper extends StatefulWidget {
   MainHealthDeclarationStepper({Key key}) : super(key: key);
@@ -14,64 +18,42 @@ class MainHealthDeclarationStepper extends StatefulWidget {
 
 class _MainHealthDeclarationStepperState
     extends State<MainHealthDeclarationStepper> {
-  int _currentStep = 0;
+  static int _currentStep = 0;
+  static var _focusNode = FocusNode();
+  GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+
+  static MyData data = MyData();
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(() {
+      setState(() {});
+      print('Has focus: $_focusNode.hasFocus');
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final Map code = ModalRoute.of(context).settings.arguments;
+    print(code);
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Health Declaration Form'),
-          iconTheme: IconThemeData(
-            color: Colors.white,
-          ),
+      appBar: AppBar(
+        title: Text('Health Declaration Form'),
+        iconTheme: IconThemeData(
+          color: Colors.white,
         ),
-        body: Stepper(
-            controlsBuilder: (BuildContext context,
-                {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 30,
-                  ),
-                  _currentStep == 4
-                      ? CircleAvatar(
-                          radius: 85,
-                          backgroundColor: Colors.green,
-                          child: IconButton(
-                            iconSize: 80,
-                            icon: FaIcon(
-                              FontAwesomeIcons.check,
-                              color: Colors.white,
-                              size: 80,
-                            ),
-                            onPressed: () {
-                              Provider.of<EmployeesProvider>(context,
-                                      listen: false)
-                                  .clearEmployee();
-                              Navigator.of(context)
-                                  .popUntil(ModalRoute.withName('/'));
-                            },
-                          ),
-                        )
-                      : Padding(
-                          padding: EdgeInsets.all(10),
-                          child: FlatButton(
-                            onPressed: onStepContinue,
-                            color: Colors.blueAccent,
-                            child: const Text('CONTINUE'),
-                          ),
-                        ),
-                  _currentStep != 4
-                      ? FlatButton(
-                          onPressed: onStepCancel,
-                          color: Colors.redAccent,
-                          child: const Text('GO BACK'),
-                        )
-                      : Text('')
-                ],
-              );
-            },
+      ),
+      body: Container(
+        child: Form(
+          key: _formKey,
+          child: Stepper(
             type: StepperType.horizontal,
             currentStep: _currentStep,
             onStepTapped: (int step) => setState(() => _currentStep = step),
@@ -105,7 +87,22 @@ class _MainHealthDeclarationStepperState
               ),
               Step(
                 title: Text(''),
-                content: UserInformation(),
+                content: Column(
+                  children: [
+                    TextFormField(
+                      focusNode: _focusNode,
+                      keyboardType: TextInputType.text,
+                      autocorrect: false,
+                      decoration: InputDecoration(
+                        labelText: 'Temperature',
+                      ),
+                      onSaved: (String value) {
+                        //print(value);
+                        data.temperature = value;
+                      },
+                    ),
+                  ],
+                ),
                 isActive: _currentStep >= 0,
                 state:
                     _currentStep >= 3 ? StepState.complete : StepState.disabled,
@@ -132,6 +129,78 @@ class _MainHealthDeclarationStepperState
                 state:
                     _currentStep >= 4 ? StepState.complete : StepState.disabled,
               ),
-            ]));
+            ],
+            controlsBuilder: (BuildContext context,
+                {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: 30,
+                  ),
+                  _currentStep == 4
+                      ? CircleAvatar(
+                          radius: 85,
+                          backgroundColor: Colors.green,
+                          child: IconButton(
+                            iconSize: 80,
+                            icon: FaIcon(
+                              FontAwesomeIcons.check,
+                              color: Colors.white,
+                              size: 80,
+                            ),
+                            onPressed: () {
+                              Provider.of<EmployeesProvider>(context,
+                                      listen: false)
+                                  .clearEmployee();
+                              Navigator.of(context)
+                                  .popUntil(ModalRoute.withName('/'));
+                            },
+                          ),
+                        )
+                      : _currentStep == 3
+                          ? Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: RaisedButton(
+                                child: Text(
+                                  'SUBMIT',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onPressed: () {
+                                  onStepContinue();
+                                  _submitDetails();
+                                },
+                                color: Colors.blue,
+                              ),
+                            )
+                          : Padding(
+                              padding: EdgeInsets.all(10),
+                              child: FlatButton(
+                                onPressed: onStepContinue,
+                                color: Colors.blueAccent,
+                                child: const Text('CONTINUE'),
+                              ),
+                            ),
+                  _currentStep != 4
+                      ? FlatButton(
+                          onPressed: onStepCancel,
+                          color: Colors.redAccent,
+                          child: const Text('GO BACK'),
+                        )
+                      : Text('')
+                ],
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _submitDetails() {
+    final FormState formState = _formKey.currentState;
+    print(formState);
+    formState.save();
+    print("temperature: ${data.temperature}");
   }
 }

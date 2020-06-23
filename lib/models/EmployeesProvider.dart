@@ -25,6 +25,7 @@ class EmployeesProvider with ChangeNotifier {
 
   void clearEmployee() {
     employee = [];
+    notifyListeners();
   }
 
   bool isSearchEmployeeByCode(String code) {

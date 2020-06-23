@@ -1,6 +1,7 @@
 import 'package:e_triage/routes.dart';
 import 'package:flutter/material.dart';
 
+import 'models/VisitorsProvider.dart';
 import 'theme/themedata.dart';
 import 'models/TermsProvider.dart';
 import 'models/EmployeesProvider.dart';
@@ -21,6 +22,10 @@ class MyApp extends StatelessWidget {
 
         ChangeNotifierProvider<EmployeesProvider>(
           create: (context) => EmployeesProvider(),
+        ),
+
+        ChangeNotifierProvider<VisitorsProvider>(
+          create: (context) => VisitorsProvider(),
         ),
       ],
       child: MaterialApp(

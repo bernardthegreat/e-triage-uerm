@@ -8,13 +8,18 @@ import 'package:e_triage/screens/qr_code/scan.dart';
 import 'package:e_triage/screens/qr_code/show.dart';
 import 'package:flutter/widgets.dart';
 
+import 'components/Help.dart';
 import 'components/MainHealthDeclarationStepper.dart';
+import 'components/PostRegistration.dart';
 import 'components/StepperWithRegistration.dart';
 import 'components/UserSearch.dart';
+import 'components/UserRegister.dart';
+import 'components/test.dart';
 
 
 final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/": (BuildContext context) => DashboardScreen(),
+  "/help": (BuildContext context) => Help(),
   "/employees": (BuildContext context) => EmployeeScreen(),
   "/health_declaration_form": (BuildContext context) => MainHealthDeclarationStepper(),
   "/visitors": (BuildContext context) => VisitorScreen(),
@@ -22,6 +27,8 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/scanqr": (BuildContext context) => ScanPage(),
   "/showqr": (BuildContext context) => ShowQR(),
   "/search": (BuildContext context) => UserSearch(),
+  "/register": (BuildContext context) => UserRegister(),
+  //"/post_registration": (BuildContext context) => PostRegistration(),
   "/stepper_registration": (BuildContext context) => StepperWithRegistration(),
-  // "/test_api": (BuildContext context) => Terms(),
+  "/test_api": (BuildContext context) => TestApp(),
 };

@@ -76,7 +76,7 @@ class Symptoms extends StatelessWidget {
               ),
               FormBuilderSwitch(
                 label: Text(
-                    'STOMACH ACHE / DIARRHEA (SAKIT SA TYAN / PAGTATAEss)'),
+                    'STOMACH ACHE / DIARRHEA (SAKIT SA TYAN / PAGTATAE)'),
                 attribute: "stomach_ache",
                 initialValue: false,
               ),
@@ -180,14 +180,7 @@ class Registration extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Register'),
-        iconTheme: IconThemeData(
-          color: Colors.white,
-        ),
-      ),
-      body: FormBuilder(
+    return FormBuilder(
         key: _key,
 
         child: SingleChildScrollView(
@@ -249,18 +242,6 @@ class Registration extends StatelessWidget {
                   maxLines: 1,
                   validators: [FormBuilderValidators.required()],
                 ),
-
-                FormBuilderTextField(
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18),
-                  attribute: 'department',
-                  decoration: InputDecoration(
-                    labelText: 'Department',
-                  ),
-                  maxLines: 1,
-                  //validators: [FormBuilderValidators.required()],
-                ),
-
                 FormBuilderTextField(
                   textAlign: TextAlign.center,
                   keyboardType: TextInputType.multiline,
@@ -291,10 +272,8 @@ class Registration extends StatelessWidget {
               ]
             ),
           ),
-        )
+        ),
         
-        
-      )
     );
   }
 }

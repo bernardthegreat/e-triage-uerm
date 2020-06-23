@@ -17,7 +17,7 @@ class DashboardSelection extends StatelessWidget {
               height: 100.0,
               child: RaisedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/stepper_registration');
+                  Navigator.pushNamed(context, '/register');
                 },
                 child: Text("NEW",
                   style: TextStyle(
