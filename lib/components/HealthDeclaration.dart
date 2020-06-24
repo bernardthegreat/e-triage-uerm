@@ -35,53 +35,51 @@ class Symptoms extends StatelessWidget {
       child: SingleChildScrollView(
           child: Container(
         margin: EdgeInsets.all(20),
-        child: FormBuilder(
-          child: Column(
-            children: [
-              Text('Do you have ANY of the following?'),
-              FormBuilderSwitch(
-                label: Text('FEVER (LAGNAT)'),
-                attribute: "fever",
-                initialValue: false,
-              ),
-              FormBuilderSwitch(
-                label: Text('COUGH OR COLDS (UBO O SIPON)'),
-                attribute: "cough_colds",
-                initialValue: false,
-              ),
-              FormBuilderSwitch(
-                label: Text('DIFFICULTY OF BREATHING  (KINAKAPOS NA HININGA)'),
-                attribute: "breathing",
-                initialValue: false,
-              ),
-              FormBuilderSwitch(
-                label: Text('HEADACHE (SAKIT NG ULO)'),
-                attribute: "headache",
-                initialValue: false,
-              ),
-              FormBuilderSwitch(
-                label: Text('SORE THROAT (NAMAMAGANG LALAMUNAN)'),
-                attribute: "sore_throat",
-                initialValue: false,
-              ),
-              FormBuilderSwitch(
-                label: Text('JOINT PAINS (SAKIT SA KASU-KASUAN)'),
-                attribute: "joint_pains",
-                initialValue: false,
-              ),
-              FormBuilderSwitch(
-                label: Text('MUSCLE PAINS (SAKIT SA KALAMNAN)'),
-                attribute: "muscle_pains",
-                initialValue: false,
-              ),
-              FormBuilderSwitch(
-                label: Text(
-                    'STOMACH ACHE / DIARRHEA (SAKIT SA TYAN / PAGTATAE)'),
-                attribute: "stomach_ache",
-                initialValue: false,
-              ),
-            ],
-          ),
+        child: Column(
+          children: [
+            Text('Do you have ANY of the following?'),
+            FormBuilderSwitch(
+              label: Text('FEVER (LAGNAT)'),
+              attribute: "fever",
+              initialValue: false,
+            ),
+            FormBuilderSwitch(
+              label: Text('COUGH OR COLDS (UBO O SIPON)'),
+              attribute: "cough_colds",
+              initialValue: false,
+            ),
+            FormBuilderSwitch(
+              label: Text('DIFFICULTY OF BREATHING  (KINAKAPOS NA HININGA)'),
+              attribute: "breathing",
+              initialValue: false,
+            ),
+            FormBuilderSwitch(
+              label: Text('HEADACHE (SAKIT NG ULO)'),
+              attribute: "headache",
+              initialValue: false,
+            ),
+            FormBuilderSwitch(
+              label: Text('SORE THROAT (NAMAMAGANG LALAMUNAN)'),
+              attribute: "sore_throat",
+              initialValue: false,
+            ),
+            FormBuilderSwitch(
+              label: Text('JOINT PAINS (SAKIT SA KASU-KASUAN)'),
+              attribute: "joint_pains",
+              initialValue: false,
+            ),
+            FormBuilderSwitch(
+              label: Text('MUSCLE PAINS (SAKIT SA KALAMNAN)'),
+              attribute: "muscle_pains",
+              initialValue: false,
+            ),
+            FormBuilderSwitch(
+              label: Text(
+                  'STOMACH ACHE / DIARRHEA (SAKIT SA TYAN / PAGTATAE)'),
+              attribute: "stomach_ache",
+              initialValue: false,
+            ),
+          ],
         ),
       )),
     );

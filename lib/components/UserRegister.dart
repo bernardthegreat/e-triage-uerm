@@ -37,8 +37,8 @@ class _UserRegisterState extends State<UserRegister> {
         return;
       }
 
-      Navigator.of(context).pushNamed('/health_declaration_form', arguments: {'code':response['code'],});
-      //Navigator.of(context).pushNamed('/post_registration', arguments: {'code':response['code'],});
+      //Navigator.of(context).pushNamed('/health_declaration_form', arguments: {'code':response['code'],});
+      Navigator.of(context).pushNamed('/post_registration', arguments: {'code':response['code'],});
     }
     setState(() {
       _isLoading = false;

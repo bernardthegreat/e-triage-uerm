@@ -28,7 +28,9 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/showqr": (BuildContext context) => ShowQR(),
   "/search": (BuildContext context) => UserSearch(),
   "/register": (BuildContext context) => UserRegister(),
-  //"/post_registration": (BuildContext context) => PostRegistration(),
-  "/stepper_registration": (BuildContext context) => StepperWithRegistration(),
+  "/post_registration": (BuildContext context) => PostRegistration(),
+  
+  
+  "/stepper_registration": (BuildContext context) => TestHDFForm(),
   "/test_api": (BuildContext context) => TestApp(),
 };

@@ -1,6 +1,9 @@
 import 'package:e_triage/routes.dart';
 import 'package:flutter/material.dart';
 
+import 'models/SwitchProvider.dart';
+import 'models/SymptomsProvider.dart';
+import 'models/UserHistoriesProvider.dart';
 import 'models/VisitorsProvider.dart';
 import 'theme/themedata.dart';
 import 'models/TermsProvider.dart';
@@ -26,6 +29,18 @@ class MyApp extends StatelessWidget {
 
         ChangeNotifierProvider<VisitorsProvider>(
           create: (context) => VisitorsProvider(),
+        ),
+
+        ChangeNotifierProvider<UserHistoriesProvider>(
+          create: (context) => UserHistoriesProvider(),
+        ),
+
+        ChangeNotifierProvider<SymptomsProvider>(
+          create: (context) => SymptomsProvider(),
+        ),
+
+        ChangeNotifierProvider<SwitchProvider>(
+          create: (context) => SwitchProvider(),
         ),
       ],
       child: MaterialApp(

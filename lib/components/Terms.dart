@@ -2,6 +2,7 @@ import 'package:e_triage/components/UermWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:e_triage/models/TermsProvider.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 class Terms extends StatefulWidget {
   Terms({Key key}) : super(key: key);
@@ -24,7 +25,6 @@ class _TermsState extends State<Terms> {
     await Future.delayed(Duration.zero);
     final terms =
         await Provider.of<TermsProvider>(context, listen: false).getTerms();
-    print(terms);
     return terms;
   }
 
@@ -42,30 +42,77 @@ class _TermsState extends State<Terms> {
           default:
             return Wrap(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(child: 
-                    Text(
-                      snapshot.data['heading'].toString(), 
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
+                ResponsiveBuilder(
+                  builder: (context, sizingInformation) {  
+                    if (sizingInformation.deviceScreenType == DeviceScreenType.mobile) {
+                      return Column(
+                        children:[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(child: 
+                              Text(
+                                snapshot.data['heading'].toString(), 
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          ),
+                        
+                          Column(
+                            children: [ 
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  snapshot.data['body'][0].toString(), 
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                    fontSize: 16
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ]
+                      );
+                    }
+
+                    return Column(
+                        children:[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(child: 
+                              Text(
+                                snapshot.data['heading'].toString(), 
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 30,
+                                ),
+                              ),
+                            ),
+                          ),
+                        
+                          Column(
+                            children: [ 
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  snapshot.data['body'][0].toString(), 
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                    fontSize: 25
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ]
+                      );
+
+                  }
                 ),
-                
-                Column(
-                  children: [ 
-                    Text(
-                      snapshot.data['body'][0].toString(), 
-                      textAlign: TextAlign.justify,
-                      style: TextStyle(
-                        fontSize: 15
-                      ),
-                    ),
-                  ],
-                ),
+
                 
               ],
             );
@@ -74,3 +121,4 @@ class _TermsState extends State<Terms> {
     );
   }
 }
+

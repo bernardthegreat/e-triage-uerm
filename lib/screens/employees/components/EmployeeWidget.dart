@@ -8,7 +8,7 @@ class Employees extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final employees = Provider.of<EmployeesProvider>(context).employee;
-    print(employees);
+    
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         if (employees.length == 0) {

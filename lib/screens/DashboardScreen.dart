@@ -27,7 +27,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               color: Colors.white,
             ),
             onPressed: () {
-              Navigator.pushNamed(context, '/help');
+              Navigator.pushNamed(context, '/stepper_registration');
             },
           )
         ],
@@ -104,11 +104,72 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ),
                             Padding(
                               padding: EdgeInsets.all(20),
-                              child: Text('Visitors', 
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 25,
-                                ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('Visitors', 
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 25,
+                                    ),
+                                  ),
+                                  SizedBox(height: 20,),
+                                  Text('Patients, \nStudent Applicants, \nPatient Companions', 
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ],
+                              ),   
+                            ),
+                            
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  Card(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    child: new InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/consultants');
+                      },
+                      child: Container(
+                        width: 100.0,
+                        height: 100.0,
+                        color: Colors.orangeAccent,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            FaIcon(
+                              FontAwesomeIcons.userShield, 
+                              size: 50,
+                              color: Colors.white,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(20),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('Consultants', 
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 25,
+                                    ),
+                                  ),
+                                  // SizedBox(height: 20,),
+                                  // Text('Consultants', 
+                                  //   style: TextStyle(
+                                  //     color: Colors.white,
+                                  //     fontSize: 18,
+                                  //   ),
+                                  // ),
+                                ],
                               ),   
                             ),
                             
@@ -141,12 +202,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ),
                             Padding(
                               padding: EdgeInsets.all(20),
-                              child: Text('Others', 
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 25,
-                                ),
-                              ),   
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('Others', 
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 25,
+                                    ),
+                                  ),
+                                  SizedBox(height: 20,),
+                                  Text('(Third Party Contractors)', 
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ],
+                              ),    
                             ),
                           ],
                         ),
@@ -166,7 +239,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: Container(
                 child: SmoothPageIndicator(
                   controller: controller,
-                  count: 3,
+                  count: 4,
                   effect: WormEffect(),
                 ),
               ),
