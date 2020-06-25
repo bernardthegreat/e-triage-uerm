@@ -7,8 +7,6 @@ import 'package:http/http.dart' as http;
 class EmployeesProvider with ChangeNotifier {
   List employee = [];
 
-  List existingHDF = [];
-
   Future<Map> searchEmployee({String code}) async {
     try {
       if (!isSearchEmployeeByCode(code)) {
@@ -23,6 +21,15 @@ class EmployeesProvider with ChangeNotifier {
     } catch (error) {
       return {'error': error};
     }
+  }
+
+  Future<Map> checkEmployee(String code) async {
+    final url = mainApi(url: 'etriage/get-hdf', params: '&UserCode=$code');
+    final response = await http.get(url);
+    final response_json = json.decode(response.body);
+
+    notifyListeners();
+    return response_json['result'];
   }
 
   void clearEmployee() {
@@ -49,9 +56,6 @@ class EmployeesProvider with ChangeNotifier {
   Future<List> searchByEmployeeCode(String code) async {
     final url = mainApi(url: 'employees/search/code', params: '&code=$code');
     final response = await http.get(url);
-
-    _getExistingHDF(code);
-
     final response_json = json.decode(response.body);
     return response_json['result'];
   }
@@ -61,13 +65,5 @@ class EmployeesProvider with ChangeNotifier {
     final response = await http.get(url);
     final response_json = json.decode(response.body);
     return response_json['result'];
-  }
-
-  _getExistingHDF(String code) async {
-    final url = mainApi(url: 'etriage/get-hdf', params: '&UserCode=$code');
-    final response = await http.get(url);
-
-    final responseBody = json.decode(response.body);
-    return responseBody;
   }
 }

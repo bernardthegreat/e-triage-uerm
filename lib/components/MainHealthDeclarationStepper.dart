@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import 'HealthDeclaration.dart';
+import 'Terms.dart';
 
 class MainHealthDeclarationStepper extends StatefulWidget {
   MainHealthDeclarationStepper({Key key}) : super(key: key);
@@ -29,6 +30,10 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
   Future _symptoms;
   Future _userHistories;
 
+  static final DateTime now = new DateTime.now();
+  static final DateTime date = new DateTime(now.year, now.month, now.day, now.hour, now.minute);
+  
+
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
 
   _saveHealthDeclarations() async {
@@ -40,6 +45,7 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
     }
   }
 
+
   _submitDetails() async {
     setState(() {});
 
@@ -50,13 +56,13 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
         if (key != 'accept_terms') {
           if (val == true) {
             setState(() {
-              background = Colors.yellowAccent;
+              background = Colors.redAccent;
               stepperIcon = FaIcon(
                 FontAwesomeIcons.times,
                 color: Colors.white,
                 size: 80,
               );
-              buttonColor = Colors.orangeAccent;
+              buttonColor = Colors.red[900];
               lastStepTextText =
                   'Please proceed to COVID ER for proper management and evaluation.';
             });
@@ -102,7 +108,7 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Health Declaration Form - ${user['CODE']}'),
+          title: Text('Health Declaration Form - ${user['code']}'),
           iconTheme: IconThemeData(
             color: Colors.white,
           ),
@@ -125,6 +131,7 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
                           _currentStep == 4
                               ? Column(
                                   children: [
+                                    SizedBox(height: 15),
                                     CircleAvatar(
                                       radius: 85,
                                       backgroundColor: buttonColor,
@@ -141,9 +148,10 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
                                         },
                                       ),
                                     ),
-                                    SizedBox(height: 5),
+                                    SizedBox(height: 15),
                                     Column(
                                       children: [
+                                        SizedBox(height: 20),
                                         Text(
                                           '- Wear mask at all times',
                                         ),
@@ -154,7 +162,14 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
                                         SizedBox(height: 5),
                                         Text(
                                           '- Wash or sanitize your hands regularly',
-                                        )
+                                        ),
+                                        SizedBox(height: 20),
+                                        Center(
+                                          child: Text(
+                                            date.toString(),
+                                            style: TextStyle(fontSize: 28),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ],
@@ -278,8 +293,13 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
                         ),
                         FormBuilderCheckbox(
                           attribute: 'accept_terms',
-                          label: Text(
-                              "I have read and agree to the terms and conditions"),
+                          label: Flexible(
+                              child: Text(
+                                  'I certify that the information I have given is true, correct, and complete. I understand that failure to answer any question or giving false answer can be penalized in accordance with law. I voluntarily and freely consent to the collection, processing, sharing and storage of the above personal information in accordance with the Data Privacy Act of 2012 and its Implementing Rules and Regulations.',
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  ))),
                           validators: [
                             FormBuilderValidators.requiredTrue(
                               errorText:

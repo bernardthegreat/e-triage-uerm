@@ -46,7 +46,7 @@ class HealthDeclarationsProvider with ChangeNotifier {
     final DateTime now = new DateTime.now();
       final DateTime date =
           new DateTime(now.year, now.month, now.day);
-      print(_list);
+      
       final String url = mainApi(url: 'etriage/save-health-declaration');
       final response = http.post(
         url,
