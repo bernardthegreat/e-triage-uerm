@@ -81,7 +81,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                           ),
                           maxLines: 1,
                           validators: [FormBuilderValidators.required()],
-                          initialValue: '7679',
+                          //initialValue: '7679',
                         ),
                       ),
                       SizedBox(
