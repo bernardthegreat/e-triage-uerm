@@ -24,7 +24,7 @@ class Employees extends StatelessWidget {
                         child: Text(e['CODE']),
                       ),
                       onTap: (){
-                        Navigator.of(context).pushNamed('/health_declaration_form');
+                        Navigator.of(context).pushNamed('/health_declaration_form', arguments: {'code':e['CODE'],'name':e['NAME'],});
                       },
                     ))
                 .toList(),
