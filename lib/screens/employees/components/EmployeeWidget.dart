@@ -8,11 +8,21 @@ class Employees extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final employees = Provider.of<EmployeesProvider>(context).employee;
-    
+
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         if (employees.length == 0) {
-          return Text('No employee found');
+          return Container(
+            color: Colors.red[100],
+            padding: EdgeInsets.all(20),
+            child: Text(
+              'No employee found or employee is inactive',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headline5.copyWith(
+                color: Colors.red[900]
+              ),
+            ),
+          );
         }
         return Column(
           children: [
@@ -23,8 +33,13 @@ class Employees extends StatelessWidget {
                       leading: CircleAvatar(
                         child: Text(e['CODE']),
                       ),
-                      onTap: (){
-                        Navigator.of(context).pushReplacementNamed('/health_declaration_form', arguments: {'code':e['CODE'],'name':e['NAME'],});
+                      onTap: () {
+                        Navigator.of(context).pushReplacementNamed(
+                            '/health_declaration_form',
+                            arguments: {
+                              'code': e['CODE'],
+                              'name': e['NAME'],
+                            });
                       },
                     ))
                 .toList(),

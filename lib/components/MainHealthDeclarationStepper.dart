@@ -238,7 +238,7 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
                       attribute: 'temp',
                       key: Key('temp'),
                       decoration: InputDecoration(labelText: 'Temperature'),
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.number,
                       validators: [
                         FormBuilderValidators.required(),
                         FormBuilderValidators.numeric(),
@@ -327,7 +327,8 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
         //   _userHistories,
         // ]),
         future: Future.wait([
-          Provider.of<HealthDeclarationsProvider>(context, listen: false).isEmployeeDoneToday(userInfo: user),
+          Provider.of<HealthDeclarationsProvider>(context, listen: false)
+              .isEmployeeDoneToday(userInfo: user),
           _userHistories,
           _symptoms,
         ]),
@@ -338,7 +339,7 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
             case ConnectionState.none:
               return LoadingWidget();
             default:
-              if(!snapshot.hasData){
+              if (!snapshot.hasData) {
                 return LoadingWidget();
               }
               // List futures = snapshot.data;
@@ -389,76 +390,84 @@ class SuccessMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      // crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(
-          title,
-          style: Theme.of(context).textTheme.headline5,
-          textAlign: TextAlign.center,
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 20,
+          horizontal: 10,
         ),
-        // Text('Please proceed to COVID ER for proper evaluation and management.'),
-        SizedBox(height: 15),
-        CircleAvatar(
-          radius: 85,
-          backgroundColor: buttonColor,
-          child: IconButton(
-            iconSize: 80,
-            // color: Colors.white,
-            icon: stepperIcon,
-            onPressed: () {
-              Provider.of<EmployeesProvider>(context, listen: false)
-                  .clearEmployee();
-              // Navigator.of(context).popUntil(
-              //     ModalRoute.withName('/'));
-            },
-          ),
-        ),
-        SizedBox(height: 15),
-        Column(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'KINDLY OBSERVE THE FOLLOWING:',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
+              title,
+              style: Theme.of(context).textTheme.headline5,
+              textAlign: TextAlign.center,
+            ),
+            // Text('Please proceed to COVID ER for proper evaluation and management.'),
+            SizedBox(height: 15),
+            CircleAvatar(
+              radius: 85,
+              backgroundColor: buttonColor,
+              child: IconButton(
+                iconSize: 80,
                 // color: Colors.white,
+                icon: stepperIcon,
+                onPressed: () {
+                  Provider.of<EmployeesProvider>(context, listen: false)
+                      .clearEmployee();
+                  // Navigator.of(context).popUntil(
+                  //     ModalRoute.withName('/'));
+                },
               ),
             ),
-            SizedBox(height: 20),
-            Text(
-              '- Wear mask at all times',
-              style: TextStyle(
-                  // color: Colors.white,
+            SizedBox(height: 15),
+            Column(
+              children: [
+                Text(
+                  'KINDLY OBSERVE THE FOLLOWING:',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    // color: Colors.white,
                   ),
-            ),
-            SizedBox(height: 5),
-            Text(
-              '- Observe physical distancing',
-              style: TextStyle(
-                  // color: Colors.white,
-                  ),
-            ),
-            SizedBox(height: 5),
-            Text(
-              '- Wash or sanitize your hands regularly',
-              style: TextStyle(
-                  // color: Colors.white,
-                  ),
-            ),
-            SizedBox(height: 20),
-            Center(
-              child: Text(
-                date.toString(),
-                style: TextStyle(
-                  fontSize: 28,
-                  // color: Colors.white,
                 ),
-              ),
+                SizedBox(height: 20),
+                Text(
+                  '- Wear mask at all times',
+                  style: TextStyle(
+                      // color: Colors.white,
+                      ),
+                ),
+                SizedBox(height: 5),
+                Text(
+                  '- Observe physical distancing',
+                  style: TextStyle(
+                      // color: Colors.white,
+                      ),
+                ),
+                SizedBox(height: 5),
+                Text(
+                  '- Wash or sanitize your hands regularly',
+                  style: TextStyle(
+                      // color: Colors.white,
+                      ),
+                ),
+                SizedBox(height: 20),
+                Center(
+                  child: Text(
+                    date.toString(),
+                    style: TextStyle(
+                      fontSize: 28,
+                      // color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
-      ],
+      ),
     );
   }
 }

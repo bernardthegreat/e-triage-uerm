@@ -16,6 +16,7 @@ class EmployeeScreen extends StatefulWidget {
 
 class _EmployeeScreenState extends State<EmployeeScreen> {
   bool _isLoading = false;
+  bool _hasSearched = false;
   String _errorMessage = '';
 
   _search({BuildContext context}) async {
@@ -45,6 +46,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
 
     setState(() {
       _isLoading = false;
+      _hasSearched = true;
     });
     FocusScope.of(context).unfocus();
   }
@@ -65,6 +67,17 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            if(!_hasSearched) Container(
+              padding: EdgeInsets.all(15),
+              margin: EdgeInsets.all(10),
+              color: Colors.blue[50],
+              child: Text(
+                'Please search your employee code / name.',
+                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                  color: Colors.blue[900]
+                ),
+              ),
+            ),
             Wrap(
               children: [
                 Padding(
@@ -77,10 +90,10 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                           child: FormBuilderTextField(
                             keyboardType: TextInputType.text,
                             textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 30.0),
+                            style: Theme.of(context).textTheme.headline5,
                             attribute: 'code',
                             decoration: InputDecoration(
-                              labelText: 'Employee Number / Name',
+                              labelText: 'Employee Code / Name',
                             ),
                             maxLines: 1,
                             validators: [FormBuilderValidators.required()],
@@ -108,7 +121,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                         SizedBox(
                           height: 10,
                         ),
-                        Employees(),
+                        if(_hasSearched) Employees(),
                       ],
                     ),
                   ),
