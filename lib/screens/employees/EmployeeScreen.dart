@@ -18,7 +18,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
   bool _isLoading = false;
   String _errorMessage = '';
 
-  _search() async {
+  _search({BuildContext context}) async {
     setState(() {
       _isLoading = true;
     });
@@ -46,6 +46,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
     setState(() {
       _isLoading = false;
     });
+    FocusScope.of(context).unfocus();
   }
 
   final GlobalKey<FormBuilderState> _key = GlobalKey<FormBuilderState>();
@@ -59,61 +60,63 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
         ),
         title: Text('Employees'),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Wrap(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Center(
-                  child: Column(
-                    children: [
-                      FormBuilder(
-                        key: _key,
-                        child: FormBuilderTextField(
-                          keyboardType: TextInputType.text,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 30.0),
-                          attribute: 'code',
-                          decoration: InputDecoration(
-                            labelText: 'Employee Number / Name',
-                          ),
-                          maxLines: 1,
-                          validators: [FormBuilderValidators.required()],
-                          //initialValue: '7679',
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      _isLoading
-                          ? CircularProgressIndicator()
-                          : Container(
-                              margin: EdgeInsets.all(10),
-                              child: Column(
-                                children: [
-                                  RaisedButton.icon(
-                                      onPressed: () {
-                                        _search();
-                                      },
-                                      icon: Icon(FontAwesomeIcons.search),
-                                      label: Text('Search')),
-                                ],
-                              ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Wrap(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        FormBuilder(
+                          key: _key,
+                          child: FormBuilderTextField(
+                            keyboardType: TextInputType.text,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 30.0),
+                            attribute: 'code',
+                            decoration: InputDecoration(
+                              labelText: 'Employee Number / Name',
                             ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Employees(),
-                    ],
+                            maxLines: 1,
+                            validators: [FormBuilderValidators.required()],
+                            //initialValue: '7679',
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        _isLoading
+                            ? CircularProgressIndicator()
+                            : Container(
+                                margin: EdgeInsets.all(10),
+                                child: Column(
+                                  children: [
+                                    RaisedButton.icon(
+                                        onPressed: () {
+                                          _search(context: context);
+                                        },
+                                        icon: Icon(FontAwesomeIcons.search),
+                                        label: Text('Search')),
+                                  ],
+                                ),
+                              ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Employees(),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

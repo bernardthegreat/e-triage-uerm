@@ -26,12 +26,12 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
   Color textColor = Colors.black;
   FaIcon stepperIcon = FaIcon(FontAwesomeIcons.check);
   Color buttonColor = Colors.green[900];
-  String lastStepTextText =
-      'Please proceed to COVID ER for proper evaluation and management.';
+  String lastStepTextText = 'You may now enter the UERM premises.';
   int _currentStep = 0;
   Future _symptoms;
   Future _userHistories;
   Color _backgroundColor = Colors.white;
+  Map _formValsConcat;
 
   static final DateTime now = new DateTime.now();
   static final DateTime date =
@@ -41,7 +41,10 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
 
   _saveHealthDeclarations({BuildContext context}) async {
     if (_formKey.currentState.saveAndValidate()) {
-      var formVals = _formKey.currentState.value;
+      var formVals = {
+        ..._formKey.currentState.value,
+        ..._formValsConcat,
+      };
       final response =
           await Provider.of<HealthDeclarationsProvider>(context, listen: false)
               .saveHealthDeclaration(formVals);
@@ -55,10 +58,12 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
           );
           buttonColor = Colors.red[900];
           lastStepTextText =
-              'Please proceed to COVID ER for proper evaluation and management.';
+              Provider.of<HealthDeclarationsProvider>(context, listen: false)
+                  .forCovidErMessage;
         });
         _currentStep = 4;
         _backgroundColor = Theme.of(context).errorColor;
+        FocusScope.of(context).unfocus();
         return;
       }
       // setState(() {
@@ -69,38 +74,14 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
         _currentStep = 4;
         _backgroundColor = Colors.green;
       });
+      FocusScope.of(context).unfocus();
     }
   }
 
   _submitDetails() async {
     if (_formKey.currentState.saveAndValidate()) {
       final formVal = _formKey.currentState.value;
-
-      print(formVal);
     }
-    // setState(() {});
-
-    // if (_formKey.currentState.saveAndValidate()) {
-    //   var formVals = _formKey.currentState.value;
-
-    //   formVals.forEach((key, val) {
-    //     if (key != 'accept_terms') {
-    //       if (val == true) {
-    //         setState(() {
-    //           background = Colors.redAccent;
-    //           stepperIcon = FaIcon(
-    //             FontAwesomeIcons.times,
-    //             color: Colors.white,
-    //             size: 80,
-    //           );
-    //           buttonColor = Colors.red[900];
-    //           lastStepTextText =
-    //               'Please proceed to COVID ER for proper management and evaluation.';
-    //         });
-    //       }
-    //     }
-    //   });
-    // }
   }
 
   @override
@@ -112,17 +93,15 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
 
   Future<void> _geSymptoms() async {
     await Future.delayed(Duration.zero);
-    final symptoms = await Provider.of<SymptomsProvider>(context, listen: false)
-        .getSymptoms();
-    return symptoms;
+    await Provider.of<SymptomsProvider>(context, listen: false).getSymptoms();
+    // return symptoms;
   }
 
   Future<void> _getUserHistories() async {
     await Future.delayed(Duration.zero);
-    final symptoms =
-        await Provider.of<UserHistoriesProvider>(context, listen: false)
-            .getUserHistories();
-    return symptoms;
+    await Provider.of<UserHistoriesProvider>(context, listen: false)
+        .getUserHistories();
+    // return symptoms;
   }
 
   @override
@@ -180,6 +159,8 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
                                   child: FlatButton(
                                     onPressed: () {
                                       _formKey.currentState.saveAndValidate();
+                                      _formValsConcat =
+                                          _formKey.currentState.value;
                                       onStepContinue();
                                       // _submitDetails();
                                     },
@@ -339,8 +320,17 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
       ),
       backgroundColor: _backgroundColor,
       body: FutureBuilder(
-        future: Provider.of<HealthDeclarationsProvider>(context, listen: false)
-            .isEmployeeDoneToday(userInfo: user),
+        // future: Future.wait([
+        //   Provider.of<HealthDeclarationsProvider>(context, listen: false)
+        //       .isEmployeeDoneToday(userInfo: user),
+        //   _symptoms,
+        //   _userHistories,
+        // ]),
+        future: Future.wait([
+          Provider.of<HealthDeclarationsProvider>(context, listen: false).isEmployeeDoneToday(userInfo: user),
+          _userHistories,
+          _symptoms,
+        ]),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.active:
@@ -348,16 +338,25 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
             case ConnectionState.none:
               return LoadingWidget();
             default:
-              // print(snapshot.data);
+              if(!snapshot.hasData){
+                return LoadingWidget();
+              }
+              // List futures = snapshot.data;
+              // print(futures[0]);
               // return Container();
-              if (snapshot.data['isDoneToday']) {
-                print(snapshot.data);
+              if (snapshot.data[0]['isDoneToday']) {
                 return SuccessMessage(
-                    title: lastStepTextText,
-                    buttonColor: snapshot.data['isForCovidEr']
+                    title: snapshot.data[0]['isForCovidEr']
+                        ? Provider.of<HealthDeclarationsProvider>(context,
+                                listen: false)
+                            .forCovidErMessage
+                        : Provider.of<HealthDeclarationsProvider>(context,
+                                listen: false)
+                            .notForCovidErMessage,
+                    buttonColor: snapshot.data[0]['isForCovidEr']
                         ? Colors.red[900]
                         : buttonColor,
-                    stepperIcon: snapshot.data['isForCovidEr']
+                    stepperIcon: snapshot.data[0]['isForCovidEr']
                         ? FaIcon(
                             FontAwesomeIcons.times,
                             color: Colors.white,

@@ -5,7 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class HealthDeclarationsProvider with ChangeNotifier {
-  final double maxTemp = 37.7;
+  final double _maxTemp = 37.7;
+  final String _forCovidErMessage = 'Please proceed to COVID ER for proper evaluation and management.';
+  final String _notForCovidErMessage = 'You may now enter the UERM premises.';
+  get notForCovidErMessage {
+    return _notForCovidErMessage;
+  }
+  get forCovidErMessage {
+    return _forCovidErMessage;
+  }
   Future<Map> isEmployeeDoneToday({Map userInfo}) async {
     final String url = mainApi(
       url: 'etriage/health-declaration',
@@ -21,12 +29,12 @@ class HealthDeclarationsProvider with ChangeNotifier {
       if(responseJson['result'][0]['symptoms'] != null){
         _isForCovidEr = true;
       }
-      if(responseJson['result'][0]['temperature'] > this.maxTemp){
+      if(responseJson['result'][0]['temperature'] > _maxTemp){
         _isForCovidEr = true;
       }
       return {
         'isDoneToday':true,
-        'isForCovidEr':true,
+        'isForCovidEr':_isForCovidEr,
       };
     }
     return {
@@ -41,7 +49,7 @@ class HealthDeclarationsProvider with ChangeNotifier {
     form.forEach((key, value) {
       switch (key) {
         case 'temp':
-          if (double.parse(value) > this.maxTemp) {
+          if (double.parse(value) > _maxTemp) {
             _isForCovidEr = true;
           }
           break;
