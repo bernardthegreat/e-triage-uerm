@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:e_triage/components/UermWidgets.dart';
+// import 'package:e_triage/components/UermWidgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:e_triage/models/EmployeesProvider.dart';
@@ -73,6 +73,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                       FormBuilder(
                         key: _key,
                         child: FormBuilderTextField(
+                          keyboardType: TextInputType.text,
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 30.0),
                           attribute: 'code',

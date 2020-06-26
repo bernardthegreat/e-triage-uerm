@@ -5,14 +5,43 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class HealthDeclarationsProvider with ChangeNotifier {
+  final double maxTemp = 37.7;
+  Future<Map> isEmployeeDoneToday({Map userInfo}) async {
+    final String url = mainApi(
+      url: 'etriage/health-declaration',
+      params: '&code=${userInfo['code']}'
+    );
+    final response = await http.get(
+      url,
+      headers: {'Content-Type': 'application/json'},
+    );
+    final responseJson = json.decode(response.body);
+    bool _isForCovidEr = false;
+    if(responseJson['result'].length > 0){
+      if(responseJson['result'][0]['symptoms'] != null){
+        _isForCovidEr = true;
+      }
+      if(responseJson['result'][0]['temperature'] > this.maxTemp){
+        _isForCovidEr = true;
+      }
+      return {
+        'isDoneToday':true,
+        'isForCovidEr':true,
+      };
+    }
+    return {
+      'isDoneToday':false,
+    };
+  }
+
   Future<Map> saveHealthDeclaration(Map form) async {
     bool _isForCovidEr = false;
     List _symptoms = [];
     Map newForm = {};
     form.forEach((key, value) {
-      switch(key){
+      switch (key) {
         case 'temp':
-          if(double.parse(value) > 37.7){
+          if (double.parse(value) > this.maxTemp) {
             _isForCovidEr = true;
           }
           break;
@@ -29,7 +58,7 @@ class HealthDeclarationsProvider with ChangeNotifier {
         case 'exposure_to_individuals':
         case 'exposure_to_confirmed_case':
         case 'exposed_to_pui':
-          if(value.toString() == 'true'){
+          if (value.toString() == 'true') {
             _isForCovidEr = true;
             _symptoms.add(key);
           }
@@ -68,13 +97,11 @@ class HealthDeclarationsProvider with ChangeNotifier {
     // if (!_list.contains(element)) {
     //   _hdfNormal(_list);
     // }
-
   }
 
   _hdfwithSuspectedCovid(form, key) {
     final DateTime now = new DateTime.now();
-    final DateTime date =
-        new DateTime(now.year, now.month, now.day);
+    final DateTime date = new DateTime(now.year, now.month, now.day);
 
     final String url = mainApi(url: 'etriage/save-health-declaration');
     final response = http.post(
@@ -90,23 +117,19 @@ class HealthDeclarationsProvider with ChangeNotifier {
   }
 
   _hdfNormal(_list) {
-
     final DateTime now = new DateTime.now();
-      final DateTime date =
-          new DateTime(now.year, now.month, now.day);
-      
-      final String url = mainApi(url: 'etriage/save-health-declaration');
-      final response = http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: json.encode({
-          'Code': _list[14],
-          'SymptomAndHistory_Code': '',
-          'Temperature': _list[13],
-          'DateDeclared': date.toString(),
-        }),
-      );
-  }
+    final DateTime date = new DateTime(now.year, now.month, now.day);
 
- 
+    final String url = mainApi(url: 'etriage/save-health-declaration');
+    final response = http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({
+        'Code': _list[14],
+        'SymptomAndHistory_Code': '',
+        'Temperature': _list[13],
+        'DateDeclared': date.toString(),
+      }),
+    );
+  }
 }

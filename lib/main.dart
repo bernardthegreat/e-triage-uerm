@@ -2,7 +2,7 @@ import 'package:e_triage/routes.dart';
 import 'package:flutter/material.dart';
 
 import 'models/HealthDeclarationsProvider.dart';
-import 'models/SwitchProvider.dart';
+// import 'models/SwitchProvider.dart';
 import 'models/SymptomsProvider.dart';
 import 'models/UserHistoriesProvider.dart';
 import 'models/VisitorsProvider.dart';
