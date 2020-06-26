@@ -10,6 +10,7 @@ import 'theme/themedata.dart';
 import 'models/TermsProvider.dart';
 import 'models/EmployeesProvider.dart';
 import 'package:provider/provider.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -23,23 +24,18 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<TermsProvider>(
           create: (context) => TermsProvider(),
         ),
-
         ChangeNotifierProvider<EmployeesProvider>(
           create: (context) => EmployeesProvider(),
         ),
-
         ChangeNotifierProvider<VisitorsProvider>(
           create: (context) => VisitorsProvider(),
         ),
-
         ChangeNotifierProvider<UserHistoriesProvider>(
           create: (context) => UserHistoriesProvider(),
         ),
-
         ChangeNotifierProvider<SymptomsProvider>(
           create: (context) => SymptomsProvider(),
         ),
-
         ChangeNotifierProvider<HealthDeclarationsProvider>(
           create: (context) => HealthDeclarationsProvider(),
         ),

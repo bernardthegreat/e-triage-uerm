@@ -23,53 +23,82 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
   Color background = Colors.white;
   Color textColor = Colors.black;
   FaIcon stepperIcon = FaIcon(FontAwesomeIcons.check);
-  Color buttonColor = Colors.green;
+  Color buttonColor = Colors.green[900];
   String lastStepTextText =
       'You have completed the E-Triage, you may now proceed to entering UERM premises!';
   int _currentStep = 0;
   Future _symptoms;
   Future _userHistories;
+  Color _backgroundColor = Colors.white;
 
   static final DateTime now = new DateTime.now();
-  static final DateTime date = new DateTime(now.year, now.month, now.day, now.hour, now.minute);
-  
+  static final DateTime date =
+      new DateTime(now.year, now.month, now.day, now.hour, now.minute);
 
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
 
-  _saveHealthDeclarations() async {
+  _saveHealthDeclarations({BuildContext context}) async {
     if (_formKey.currentState.saveAndValidate()) {
       var formVals = _formKey.currentState.value;
       final response =
           await Provider.of<HealthDeclarationsProvider>(context, listen: false)
               .saveHealthDeclaration(formVals);
+      if (response['isForCovidEr']) {
+        setState(() {
+          background = Colors.redAccent;
+          stepperIcon = FaIcon(
+            FontAwesomeIcons.times,
+            color: Colors.white,
+            size: 80,
+          );
+          buttonColor = Colors.red[900];
+          lastStepTextText =
+              'Please proceed to COVID ER for proper management and evaluation.';
+        });
+        _currentStep = 4;
+        _backgroundColor = Theme.of(context).errorColor;
+        return;
+      }
+      // setState(() {
+      //   _forCovidEr = false;
+      //   _isAlertShown = true;
+      // });
+      setState(() {
+        _currentStep = 4;
+        _backgroundColor = Colors.green;
+      });
     }
   }
 
-
   _submitDetails() async {
-    setState(() {});
-
     if (_formKey.currentState.saveAndValidate()) {
-      var formVals = _formKey.currentState.value;
+      final formVal = _formKey.currentState.value;
 
-      formVals.forEach((key, val) {
-        if (key != 'accept_terms') {
-          if (val == true) {
-            setState(() {
-              background = Colors.redAccent;
-              stepperIcon = FaIcon(
-                FontAwesomeIcons.times,
-                color: Colors.white,
-                size: 80,
-              );
-              buttonColor = Colors.red[900];
-              lastStepTextText =
-                  'Please proceed to COVID ER for proper management and evaluation.';
-            });
-          }
-        }
-      });
+      print(formVal);
     }
+    // setState(() {});
+
+    // if (_formKey.currentState.saveAndValidate()) {
+    //   var formVals = _formKey.currentState.value;
+
+    //   formVals.forEach((key, val) {
+    //     if (key != 'accept_terms') {
+    //       if (val == true) {
+    //         setState(() {
+    //           background = Colors.redAccent;
+    //           stepperIcon = FaIcon(
+    //             FontAwesomeIcons.times,
+    //             color: Colors.white,
+    //             size: 80,
+    //           );
+    //           buttonColor = Colors.red[900];
+    //           lastStepTextText =
+    //               'Please proceed to COVID ER for proper management and evaluation.';
+    //         });
+    //       }
+    //     }
+    //   });
+    // }
   }
 
   @override
@@ -113,6 +142,7 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
             color: Colors.white,
           ),
         ),
+        backgroundColor: _backgroundColor,
         body: FormBuilder(
           key: _formKey,
           autovalidate: true,
@@ -130,6 +160,8 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
                           ),
                           _currentStep == 4
                               ? Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  // crossAxisAlignment: CrossAxisAlignment.stretch,
                                   children: [
                                     SizedBox(height: 15),
                                     CircleAvatar(
@@ -137,14 +169,15 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
                                       backgroundColor: buttonColor,
                                       child: IconButton(
                                         iconSize: 80,
+                                        color: Colors.white,
                                         icon: stepperIcon,
                                         onPressed: () {
                                           Provider.of<EmployeesProvider>(
                                                   context,
                                                   listen: false)
                                               .clearEmployee();
-                                          Navigator.of(context).popUntil(
-                                              ModalRoute.withName('/'));
+                                          // Navigator.of(context).popUntil(
+                                          //     ModalRoute.withName('/'));
                                         },
                                       ),
                                     ),
@@ -154,20 +187,32 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
                                         SizedBox(height: 20),
                                         Text(
                                           '- Wear mask at all times',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
                                         ),
                                         SizedBox(height: 5),
                                         Text(
                                           '- Observe physical distancing',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
                                         ),
                                         SizedBox(height: 5),
                                         Text(
                                           '- Wash or sanitize your hands regularly',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
                                         ),
                                         SizedBox(height: 20),
                                         Center(
                                           child: Text(
                                             date.toString(),
-                                            style: TextStyle(fontSize: 28),
+                                            style: TextStyle(
+                                              fontSize: 28,
+                                              color: Colors.white
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -183,8 +228,11 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
                                           style: TextStyle(color: Colors.white),
                                         ),
                                         onPressed: () {
-                                          onStepContinue();
-                                          _saveHealthDeclarations();
+                                          // print(_currentStep);
+                                          // onStepContinue();
+                                          _saveHealthDeclarations(
+                                              context: context);
+                                          // _saveHealthDeclarations();
                                         },
                                         color: Colors.blue,
                                       ),
@@ -193,8 +241,10 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
                                       padding: EdgeInsets.all(15),
                                       child: FlatButton(
                                         onPressed: () {
+                                          _formKey.currentState
+                                              .saveAndValidate();
                                           onStepContinue();
-                                          _submitDetails();
+                                          // _submitDetails();
                                         },
                                         color: Colors.blueAccent,
                                         child: const Text('CONTINUE'),
@@ -269,20 +319,20 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
                           attribute: 'temp',
                           key: Key('temp'),
                           decoration: InputDecoration(labelText: 'Temperature'),
-                          validators: [FormBuilderValidators.required()],
+                          validators: [
+                            FormBuilderValidators.required(),
+                            FormBuilderValidators.numeric(),
+                            FormBuilderValidators.min(35.0),
+                            FormBuilderValidators.max(42.0),
+                          ],
                         ),
-                        // FormBuilderTextField(
-                        //   attribute: 'code',
-                        //   key: Key('code'),
-                        //   decoration: InputDecoration(labelText: 'Fullname'),
-                        //   initialValue: user['name'],
-                        //   readOnly: true,
-                        // ),
                         FormBuilderDropdown(
                           initialValue: user['code'],
                           attribute: 'code',
                           decoration: InputDecoration(labelText: 'Fullname'),
-                          validators: [FormBuilderValidators.required()],
+                          validators: [
+                            FormBuilderValidators.required(),
+                          ],
                           items: [
                             DropdownMenuItem(
                               value: user['code'],
@@ -293,13 +343,12 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
                         ),
                         FormBuilderCheckbox(
                           attribute: 'accept_terms',
-                          label: Flexible(
-                              child: Text(
-                                  'I certify that the information I have given is true, correct, and complete. I understand that failure to answer any question or giving false answer can be penalized in accordance with law. I voluntarily and freely consent to the collection, processing, sharing and storage of the above personal information in accordance with the Data Privacy Act of 2012 and its Implementing Rules and Regulations.',
-                                  textAlign: TextAlign.justify,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ))),
+                          label: Text(
+                              'I certify that the information I have given is true, correct, and complete. I understand that failure to answer any question or giving false answer can be penalized in accordance with law. I voluntarily and freely consent to the collection, processing, sharing and storage of the above personal information in accordance with the Data Privacy Act of 2012 and its Implementing Rules and Regulations.',
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                                fontSize: 18,
+                              )),
                           validators: [
                             FormBuilderValidators.requiredTrue(
                               errorText:
@@ -323,7 +372,10 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
                         Flexible(
                           child: Text(
                             lastStepTextText,
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6
+                                .copyWith(color: Colors.white),
                             textAlign: TextAlign.center,
                           ),
                         ),
