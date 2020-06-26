@@ -8,6 +8,7 @@ import 'package:e_triage/models/UserHistoriesProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 // import 'package:responsive_builder/responsive_builder.dart';
 
@@ -238,7 +239,9 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
                       attribute: 'temp',
                       key: Key('temp'),
                       decoration: InputDecoration(labelText: 'Temperature'),
-                      keyboardType: TextInputType.number,
+                      keyboardType: TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
                       validators: [
                         FormBuilderValidators.required(),
                         FormBuilderValidators.numeric(),
@@ -456,7 +459,7 @@ class SuccessMessage extends StatelessWidget {
                 SizedBox(height: 20),
                 Center(
                   child: Text(
-                    date.toString(),
+                    DateFormat('EEE, MMM d, y','en_US').addPattern('jm').format(DateTime.now()),
                     style: TextStyle(
                       fontSize: 28,
                       // color: Colors.white,
