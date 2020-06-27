@@ -49,7 +49,8 @@ class HealthDeclarationsProvider with ChangeNotifier {
     form.forEach((key, value) {
       switch (key) {
         case 'temp':
-          if (double.parse(value) > _maxTemp) {
+          String temperature = value.toStringAsFixed(1);
+          if (double.parse(temperature) > _maxTemp) {
             _isForCovidEr = true;
           }
           break;
@@ -75,7 +76,7 @@ class HealthDeclarationsProvider with ChangeNotifier {
     });
     newForm['symptoms'] = _symptoms.join(';');
     newForm['code'] = form['code'];
-    newForm['temperature'] = form['temp'];
+    newForm['temperature'] = form['temp'].toStringAsFixed(1);
     final String url = mainApi(url: 'etriage/save-health-declaration');
     final response = await http.post(
       url,

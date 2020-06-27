@@ -235,18 +235,21 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
                 title: Text(''),
                 content: Column(
                   children: [
-                    FormBuilderTextField(
+                    FormBuilderSlider(
                       attribute: 'temp',
                       key: Key('temp'),
                       decoration: InputDecoration(labelText: 'Temperature'),
-                      keyboardType: TextInputType.numberWithOptions(
-                        decimal: true,
-                      ),
+                      // keyboardType: TextInputType.numberWithOptions(
+                      //   decimal: true,
+                      // ),
+                      initialValue: 35.0,
+                      min: 35.0,
+                      max: 42.0,
                       validators: [
                         FormBuilderValidators.required(),
-                        FormBuilderValidators.numeric(),
-                        FormBuilderValidators.min(35.0),
-                        FormBuilderValidators.max(42.0),
+                        // FormBuilderValidators.numeric(),
+                        // FormBuilderValidators.min(35.0),
+                        // FormBuilderValidators.max(42.0),
                       ],
                     ),
                     FormBuilderDropdown(
@@ -343,7 +346,23 @@ class _MainHealthDeclarationState extends State<MainHealthDeclarationStepper> {
               return LoadingWidget();
             default:
               if (!snapshot.hasData) {
-                return LoadingWidget();
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'Something went wrong, please try again.',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headline5,
+                    ),
+                    FlatButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('Go Back'),
+                    ),
+                  ],
+                );
               }
               // List futures = snapshot.data;
               // print(futures[0]);
@@ -459,7 +478,9 @@ class SuccessMessage extends StatelessWidget {
                 SizedBox(height: 20),
                 Center(
                   child: Text(
-                    DateFormat('EEE, MMM d, y','en_US').addPattern('jm').format(DateTime.now()),
+                    DateFormat('EEE, MMM d, y', 'en_US')
+                        .addPattern('jm')
+                        .format(DateTime.now()),
                     style: TextStyle(
                       fontSize: 28,
                       // color: Colors.white,
